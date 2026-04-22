@@ -26,7 +26,7 @@ public class DiscoveryResource {
         Map<String, Object> response = new LinkedHashMap<String, Object>();
         response.put("name", "Smart Campus Sensor & Room Management API");
         response.put("version", "v1");
-        response.put("admin", "your.email@westminster.ac.uk");
+        response.put("admin", "w2153628@westminster.ac.uk");
 
         Map<String, String> resources = new LinkedHashMap<String, String>();
         resources.put("rooms", "http://localhost:9095/api/v1/rooms");
