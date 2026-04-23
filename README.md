@@ -5,7 +5,7 @@
 - **Coursework Title:** Smart Campus Sensor & Room Management API
 - **Student:** Dinithi Thisarani Senevirathna
 - **Student ID:** w2153628/20240583
-- **Repository:** 
+- **Repository:** https://github.com/thisaS04/Smart-Campus-API.git
 ---
 
 ## Overview
