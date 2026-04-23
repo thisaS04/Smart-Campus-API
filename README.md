@@ -86,70 +86,78 @@ src/main/java/com/mycompany/smartcampusapi
 └── filter
     └── LoggingFilter.java
 
-In-Memory Data Design
+## In-Memory Data Design
 
 The system stores runtime data in memory using Java collections.
 
 Main collections:
 
-Map<String, Room> for rooms
-Map<String, Sensor> for sensors
-Map<String, List<SensorReading>> for reading history
+* Map<String, Room> for rooms
+* Map<String, Sensor> for sensors
+* Map<String, List<SensorReading>> for reading history
 
 This means:
-
-data is available while the server is running,
-if the server restarts, runtime-created data is reset,
-some sample seed data is included for testing.
+- data is available while the server is running,
+- if the server restarts, runtime-created data is reset,
+- some sample seed data is included for testing.
 
 Example seeded data:
 
-room: LIB-301
-room: LAB-201
-sensor: TEMP-001
-sensor: CO2-001
-How to Build the Project
+* room: LIB-301
+* room: LAB-201
+* sensor: TEMP-001
+* sensor: CO2-001
+
+## How to Build the Project
 Using Apache NetBeans
-Open the SmartCampusAPI project in Apache NetBeans.
-Let Maven finish loading dependencies.
-Right-click the project.
-Click Clean and Build.
+
+1. Open the SmartCampusAPI project in Apache NetBeans.
+2. Let Maven finish loading dependencies.
+3. Right-click the project.
+4. Click Clean and Build.
+   
 Using Maven in Terminal
-
 Open terminal in the project folder and run:
+- mvn clean install
+  
+## How to Run the Server
 
-mvn clean install
-How to Run the Server
 Using Apache NetBeans
-Open the project in NetBeans.
-Make sure the run configuration uses:
-com.mycompany.smartcampusapi.Main
-Right-click the project.
-Click Run.
+1. Open the project in NetBeans.
+2. Make sure the run configuration uses: com.mycompany.smartcampusapi.Main
+3. Right-click the project.
+4. Click Run.
+   
 Using Maven in Terminal
 mvn exec:java -Dexec.mainClass=com.mycompany.smartcampusapi.Main
-Base URL
 
+## Base URL
 When the server starts successfully, the local base URL is:
-
 http://localhost:9095/api/v1/
-Main Endpoints
+
+## Main Endpoints
+
 Discovery
-GET /api/v1/
+- GET /api/v1/
+  
 Rooms
-GET /api/v1/rooms
-POST /api/v1/rooms
-GET /api/v1/rooms/{roomId}
-DELETE /api/v1/rooms/{roomId}
+- GET /api/v1/rooms
+- POST /api/v1/rooms
+- GET /api/v1/rooms/{roomId}
+- DELETE /api/v1/rooms/{roomId}
+  
 Sensors
-GET /api/v1/sensors
-GET /api/v1/sensors?type=CO2
-POST /api/v1/sensors
-GET /api/v1/sensors/{sensorId}
+- GET /api/v1/sensors
+- GET /api/v1/sensors?type=CO2
+- POST /api/v1/sensors
+- GET /api/v1/sensors/{sensorId}
+  
 Sensor Reading History
-GET /api/v1/sensors/{sensorId}/readings
-POST /api/v1/sensors/{sensorId}/readings
-Sample curl Commands
+- GET /api/v1/sensors/{sensorId}/readings
+- POST /api/v1/sensors/{sensorId}/readings
+
+## Sample curl Commands
+
 1. Get API discovery information
 curl -X GET http://localhost:9095/api/v1/
 2. Get all rooms
@@ -184,7 +192,8 @@ curl -X POST http://localhost:9095/api/v1/sensors \
 curl -X POST http://localhost:9095/api/v1/sensors/CO2-001/readings \
 -H "Content-Type: application/json" \
 -d "{\"value\":460}"
-Example JSON Requests
+
+## Example JSON Requests
 Create Room
 {
   "id": "ENG-101",
@@ -204,24 +213,31 @@ Create Reading
   "value": 17
 }
 
-Error Handling Summary
+## Error Handling Summary
 
 This API uses custom exception mappers so that it does not return raw Java stack traces to clients.
 
 Implemented cases:
 
-409 Conflict → deleting a room that still has assigned sensors
-422 Unprocessable Entity → creating a sensor with a room ID that does not exist
-403 Forbidden → posting a reading to a sensor in MAINTENANCE
-500 Internal Server Error → catch-all global safety net for unexpected runtime errors
+- 409 Conflict → deleting a room that still has assigned sensors
+- 422 Unprocessable Entity → creating a sensor with a room ID that does not exist
+- 403 Forbidden → posting a reading to a sensor in MAINTENANCE
+- 500 Internal Server Error → catch-all global safety net for unexpected runtime errors
 
 All error responses return a structured JSON body using the ApiError model.
 
-Logging
-
+## Logging
 A custom JAX-RS filter logs:
 
 the HTTP method and URI for every incoming request,
 the final HTTP status code for every outgoing response.
 
 This improves API observability and keeps logging logic centralized instead of duplicating logger statements in every resource method.
+
+## Known Limitations
+The project uses in-memory data only, so data is reset when the server restarts.
+The API is designed for coursework demonstration and local testing.
+Authentication and persistent database storage are intentionally not included because they are outside the coursework requirements.
+
+## Conclusion
+This project demonstrates the design and implementation of a RESTful Smart Campus API using JAX-RS. It includes resource-based routing, nested sub-resources, query-based filtering, in-memory data storage, structured exception mapping, and centralized logging. The final result is a clean and testable API that satisfies the coursework requirements while following core REST principles.
