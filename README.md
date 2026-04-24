@@ -158,37 +158,49 @@ Sensor Reading History
 
 ## Sample curl Commands
 
-1. Get API discovery information
+### 1. Get API discovery information
+'''bash 
 curl -X GET http://localhost:9095/api/v1/
-2. Get all rooms
+### 2. Get all rooms
+'''bash
 curl -X GET http://localhost:9095/api/v1/rooms
-3. Create a new room
+### 3. Create a new room
+'''bash
 curl -X POST http://localhost:9095/api/v1/rooms \
 -H "Content-Type: application/json" \
 -d "{\"id\":\"ENG-101\",\"name\":\"Engineering Lab\",\"capacity\":50}"
-4. Get one room by ID
+### 4. Get one room by ID
+'''bash
 curl -X GET http://localhost:9095/api/v1/rooms/ENG-101
-5. Get all sensors
+### 5. Get all sensors
+'''bash
 curl -X GET http://localhost:9095/api/v1/sensors
-6. Create a new sensor linked to a valid room
+### 6. Create a new sensor linked to a valid room
+'''bash
 curl -X POST http://localhost:9095/api/v1/sensors \
 -H "Content-Type: application/json" \
 -d "{\"id\":\"OCC-002\",\"type\":\"Occupancy\",\"status\":\"ACTIVE\",\"currentValue\":0,\"roomId\":\"ENG-101\"}"
-7. Filter sensors by type
+### 7. Filter sensors by type
+'''bash
 curl -X GET "http://localhost:9095/api/v1/sensors?type=CO2"
-8. Add a new reading to a sensor
+### 8. Add a new reading to a sensor
+'''bash
 curl -X POST http://localhost:9095/api/v1/sensors/OCC-002/readings \
 -H "Content-Type: application/json" \
 -d "{\"value\":17}"
-9. Get reading history for a sensor
+### 9. Get reading history for a sensor
+'''bash
 curl -X GET http://localhost:9095/api/v1/sensors/OCC-002/readings
-10. Trigger 409 Conflict by deleting a room that still has sensors
+### 10. Trigger 409 Conflict by deleting a room that still has sensors
+'''bash
 curl -X DELETE http://localhost:9095/api/v1/rooms/LIB-301
-11. Trigger 422 Unprocessable Entity by linking a sensor to a non-existent room
+### 11. Trigger 422 Unprocessable Entity by linking a sensor to a non-existent room
+'''bash
 curl -X POST http://localhost:9095/api/v1/sensors \
 -H "Content-Type: application/json" \
 -d "{\"id\":\"TEMP-999\",\"type\":\"Temperature\",\"status\":\"ACTIVE\",\"currentValue\":22.0,\"roomId\":\"ROOM-DOES-NOT-EXIST\"}"
-12. Trigger 403 Forbidden by posting a reading to a maintenance sensor
+### 12. Trigger 403 Forbidden by posting a reading to a maintenance sensor
+'''bash
 curl -X POST http://localhost:9095/api/v1/sensors/CO2-001/readings \
 -H "Content-Type: application/json" \
 -d "{\"value\":460}"
